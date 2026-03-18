@@ -1,109 +1,94 @@
-# AWS Generative AI Examples
+# 🚀 AWS Generative AI Developer Professional - Practical Cookbook
 
-A hands-on repository to learn and experiment with [AWS Bedrock](https://aws.amazon.com/bedrock/) — from simple model prompts to Retrieval-Augmented Generation (RAG), guardrails, and more.
+This repository is a comprehensive collection of practical implementations, design patterns, and real-world use cases using **Amazon Bedrock** and the AWS Generative AI ecosystem.
 
-## Overview
+The content is strictly aligned with the exam domains of the **AWS Certified Generative AI Developer - Professional** certification, covering everything from basic model invocation to complex Agent architectures and advanced RAG.
 
-AWS Bedrock is a fully managed service that provides access to foundation models (FMs) from leading AI companies through a unified API. This playground walks through progressively more advanced use cases:
+---
 
-| Section | Description |
-|---------|-------------|
-| [01 – Simple Prompts](./01_simple_prompts/) | Direct model invocation, the Converse API, and streaming responses |
-| [02 – RAG](./02_rag/) | Retrieval-Augmented Generation using Bedrock Knowledge Bases |
-| [03 – Guardrails](./03_guardrails/) | Content filtering and policy enforcement with Bedrock Guardrails |
+## 📂 Repository Structure
 
-## Prerequisites
+The project is organized into progressive modules:
 
-- Python 3.10+
-- An AWS account with Amazon Bedrock access enabled
-- IAM permissions for `bedrock`, `bedrock-runtime`, and `bedrock-agent-runtime`
-- (Optional) An S3 bucket and a Bedrock Knowledge Base for the RAG examples
-- (Optional) A Bedrock Guardrail for the guardrails examples
+### 1. Invocation & Fundamentals (`/01-invocation`)
+* **InvokeModel API**: Handling model-specific payloads (JSON) for Anthropic Claude, Meta Llama, and Amazon Nova.
+* **Converse API**: Implementing the unified Bedrock interface for maximum code portability.
+* **Streaming Responses**: Implementing real-time "typing" effects for better UX using `ConverseStream`.
+* **Multimodal Prompts**: Processing images and documents (PDF/Docx) directly within the prompt.
 
-## Setup
+### 2. Security & Governance (`/02-guardrails`)
+* **Content Filtering**: Configuring thresholds for hate, violence, and sexual content.
+* **PII Masking**: Automatic detection and redaction of sensitive data (Emails, SSNs, Phone numbers).
+* **Denied Topics**: Restricting specific conversation themes using custom word filters.
+* **Contextual Grounding**: Detecting hallucinations by validating model responses against source data.
 
-```bash
-# Create and activate a virtual environment (recommended)
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
 
-# Install dependencies
-pip install -r requirements.txt
 
-# Configure AWS credentials
-aws configure
-# or set environment variables:
-# export AWS_ACCESS_KEY_ID=...
-# export AWS_SECRET_ACCESS_KEY=...
-# export AWS_DEFAULT_REGION=us-east-1
-```
+### 3. Advanced RAG & Knowledge Bases (`/03-rag-knowledge-bases`)
+* **Data Ingestion**: Pipeline from S3 to Vector Engine (OpenSearch Serverless).
+* **Chunking Strategies**:
+    * Fixed-size vs. Hierarchical chunking.
+    * **Semantic Chunking**: Splitting text based on meaningful coherence rather than character count.
+* **Advanced Retrieval**: Implementing metadata filtering and re-ranking for higher precision.
 
-## Sections
 
-### 01 – Simple Prompts
 
-Three self-contained scripts that show the fundamentals of calling a Bedrock model:
+### 4. Prompt Management (`/04-prompt-management`)
+* **Bedrock Prompt Management**: Deploying prompt variants and managing lifecycle versions (Live/Draft).
+* **Prompt Engineering**: Examples of *Chain-of-Thought*, *Few-Shot*, and *System Prompting* techniques.
 
-- **`simple_invoke.py`** – lowest-level call via `invoke_model` using the raw JSON payload for Claude 3.
-- **`converse_api.py`** – the recommended multi-turn [Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html) that works with any supported model.
-- **`streaming_response.py`** – real-time token streaming with `converse_stream` so long responses display progressively.
+### 5. Efficiency & Performance (`/05-performance`)
+* **Semantic Cache**: Implementing a vector cache to reduce latency and costs using Amazon Titan Embeddings.
+* **Batch Inference**: Efficiently processing large datasets asynchronously.
+* **Provisioned Throughput**: Invoking models using reserved capacity for high-demand applications.
 
-```bash
-cd 01_simple_prompts
-python simple_invoke.py
-python converse_api.py
-python streaming_response.py
-```
 
-### 02 – RAG
 
-Examples that combine a Bedrock Knowledge Base with a foundation model to answer questions grounded in your own documents:
+### 6. Agentes & Tool Use (`/06-agents`)
+* **Tool Use (Function Calling)**: Enabling models to interact with external APIs autonomously.
+* **Agents for Amazon Bedrock**: Full agent configuration with Lambda Action Groups and session memory.
 
-- **`knowledge_base_query.py`** – pure *Retrieve* call; returns relevant document chunks without generating an answer.
-- **`retrieve_and_generate.py`** – full RAG pipeline: retrieves context **and** generates a grounded answer in one call.
+### 7. Model Evaluation (`/07-evaluation`)
+* **Automated Evaluation**: Running evaluation jobs for metrics like Accuracy, Robustness, and Toxicity.
+* **Human-in-the-loop**: Integrating with Amazon SageMaker Ground Truth for human-based scoring.
 
-```bash
-cd 02_rag
-# Set the Knowledge Base ID (created in the AWS Console or via IaC)
-export KNOWLEDGE_BASE_ID=<your-kb-id>
-python knowledge_base_query.py
-python retrieve_and_generate.py
-```
+---
 
-### 03 – Guardrails
+## 🛠️ Prerequisites
 
-Examples that show how to add safety layers on top of model responses:
+1.  **AWS Account** with model access granted in Amazon Bedrock (Nova, Claude, Titan).
+2.  **Python 3.9+**.
+3.  **AWS CLI** configured with appropriate IAM permissions.
+4.  **Boto3 1.34.x+** (Ensure you have the latest version for Amazon Nova support).
 
-- **`apply_guardrail.py`** – calls `apply_guardrail` directly to test whether text passes a guardrail policy.
-- **`converse_with_guardrail.py`** – wraps the Converse API with a guardrail so every request/response pair is screened automatically.
+---
 
-```bash
-cd 03_guardrails
-# Set the Guardrail ID and version
-export GUARDRAIL_ID=<your-guardrail-id>
-export GUARDRAIL_VERSION=DRAFT   # or a published version number
-python apply_guardrail.py
-python converse_with_guardrail.py
-```
+## 🚀 Getting Started
 
-## Environment Variables Reference
+1.  **Clone the repo**:
+    ```bash
+    git clone [https://github.com/your-user/aws-genai-pro-cookbook.git](https://github.com/your-user/aws-genai-pro-cookbook.git)
+    cd aws-genai-pro-cookbook
+    ```
 
-| Variable | Required by | Description |
-|---|---|---|
-| `AWS_DEFAULT_REGION` | all | AWS region (default `us-east-1`) |
-| `BEDROCK_MODEL_ID` | all | Foundation model ID (default `anthropic.claude-3-sonnet-20240229-v1:0`) |
-| `KNOWLEDGE_BASE_ID` | 02_rag | ID of the Bedrock Knowledge Base |
-| `GUARDRAIL_ID` | 03_guardrails | ID of the Bedrock Guardrail |
-| `GUARDRAIL_VERSION` | 03_guardrails | Version of the guardrail (default `DRAFT`) |
+2.  **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-## Useful Resources
+3.  **Run an example**:
+    ```bash
+    python 01-invocation/converse_api_basic.py
+    ```
 
-- [Amazon Bedrock Documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html)
-- [Boto3 Bedrock Runtime Reference](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock-runtime.html)
-- [Bedrock Knowledge Bases](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html)
-- [Bedrock Guardrails](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html)
-- [Supported Foundation Models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html)
+---
 
-## License
+## 🎓 Certification Resources
+* [Official Exam Guide (AWS)](https://aws.amazon.com/certification/certified-generative-ai-developer-professional/)
+* [Amazon Bedrock Documentation](https://docs.aws.amazon.com/bedrock/)
+* [AWS Bedrock Samples GitHub](https://github.com/aws-samples/amazon-bedrock-samples)
 
-This project is open-source and available under the [MIT License](LICENSE).
+---
+
+## 📝 License
+This project is licensed under the MIT License.
