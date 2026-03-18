@@ -1,4 +1,4 @@
-# AWS Bedrock Playground
+# AWS Generative AI Examples
 
 A hands-on repository to learn and experiment with [AWS Bedrock](https://aws.amazon.com/bedrock/) — from simple model prompts to Retrieval-Augmented Generation (RAG), guardrails, and more.
 
